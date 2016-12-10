@@ -7,7 +7,6 @@ public class Bank {
 	public static void main(String[] args) {
 		String id = "na";
 		boolean flag = true, aflag = true, uflag = true;
-		;
 		TransactionObject t = new TransactionObject();
 		AdminActivities aa = new AdminActivities();
 		UserActivities ua = new UserActivities();

@@ -1,55 +1,79 @@
 package bankatm;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+import javax.swing.*;
 
 public class Bank {
+	String id = "na";
+	TransactionObject t = new TransactionObject();
 
-	public Bank(){
+	public Bank() {
 		JFrame frame;
 		frame = new JFrame("ATM");
-		
 		JPanel panel = new JPanel();
 		JLabel ulabel = new JLabel("User ID");
-		JTextField userid = new JTextField(5);
-		JLabel plabel= new JLabel("Password");
-		JTextField pwd = new JTextField(5);
+		JTextField userid = new JTextField(10);
+		JLabel plabel = new JLabel("Password");
+		JPasswordField pwd = new JPasswordField(10);
 		JButton login = new JButton("Login");
-		
-		panel.add(ulabel);
-		panel.add(userid);
-		panel.add(plabel);
-		panel.add(pwd);
-		panel.add(login);
-		
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridwidth = 3;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		panel.add(ulabel, gbc);
+		gbc.gridx = gbc.gridx + 10;
+		panel.add(userid, gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
+		gbc.gridx = 0;
+		panel.add(plabel, gbc);
+		gbc.gridx = gbc.gridx + 10;
+		panel.add(pwd, gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
+		panel.add(login, gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
+
 		login.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				// Login Validation
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					java.sql.Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root",
+							"oracle");
+					Statement stmt = con.createStatement();
+					ResultSet res = stmt
+							.executeQuery("select * from banklogin where userid = '" + userid.getText() + "';");
+					if (res.next()) {
+						if (res.getString(1).equals(userid.getText())
+								&& res.getString(2).equals(String.valueOf(pwd.getPassword()))) {
+
+							System.out.println("Login Successfull");
+							t.setId(userid.getText());
+							id = t.getId();
+							System.out.println("Welcome " + id);
+							if (id.equals("admin")) {
+								frame.setVisible(false);
+								new Admin(t);
+							} else {
+
+							}
+
+						}
+					}
+
+				} catch (Exception exc) {
+					exc.printStackTrace();
+				}
 			}
 		});
-		
+
 		frame.add(panel, BorderLayout.CENTER);
 		frame.pack();
 		Dimension frameDim = frame.getSize();
@@ -68,6 +92,7 @@ public class Bank {
 		});
 		frame.setVisible(true);
 	}
+
 	public static void main(String[] args) {
 		new Bank();
 
