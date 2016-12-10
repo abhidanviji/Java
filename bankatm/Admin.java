@@ -26,6 +26,12 @@ public class Admin {
 		JButton deleteuser = new JButton("Delete User");
 		JButton logout = new JButton("Logout");
 		
+		newuser.setPreferredSize(new Dimension(200, 20));
+		addacct.setPreferredSize(new Dimension(200, 20));
+		removeacct.setPreferredSize(new Dimension(200, 20));
+		deleteuser.setPreferredSize(new Dimension(200, 20));
+		logout.setPreferredSize(new Dimension(200, 20));
+		
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridwidth = 3;
@@ -36,6 +42,15 @@ public class Admin {
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		panel.add(addacct,gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
+		panel.add(removeacct,gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
+		panel.add(deleteuser,gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
+		panel.add(logout,gbc);
 		
 		frame.add(panel, BorderLayout.CENTER);
 		frame.pack();
