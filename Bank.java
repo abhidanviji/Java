@@ -40,7 +40,7 @@ public class Bank {
 
 					while (aflag) {
 						System.out.println("Select from following options and enter option number:");
-						System.out.println("1. Create User \n2. Create another account \n3. Logout \n4. Exit Application");
+						System.out.println("1. Create User \n2. Create another account \n3. Close account \n4. Delete User \n5. Logout \n6. Exit Application");
 						int option = Integer.parseInt(sc.next());
 						switch (option) {
 						case 1:
@@ -50,12 +50,18 @@ public class Bank {
 						case 2:
 							aa.createAccount(t);
 							break;
-
+							
 						case 3:
+							break;
+							
+						case 4:
+							break;
+
+						case 5:
 							aflag = false;
 							break;
 
-						case 4:
+						case 6:
 							flag = false;
 							break;
 						}
@@ -65,7 +71,7 @@ public class Bank {
 				} else {
 					while (uflag) {
 						System.out.println("Select from following options and enter option number:");
-						System.out.println("1. Change password \n2. View Account Details \n3. Logout \n4. Exit Application");
+						System.out.println("1. Change password \n2. View Account Details \n3. Intra Account Transfer \n4. Inter Account Transfer \n5. Logout \n6. Exit Application");
 						int option = Integer.parseInt(sc.next());
 						switch (option) {
 						case 1:
@@ -77,10 +83,16 @@ public class Bank {
 							break;
 							
 						case 3:
-							uflag = false;
 							break;
 							
 						case 4:
+							break;
+							
+						case 5:
+							uflag = false;
+							break;
+							
+						case 6:
 							flag = false;
 							break;
 						}
