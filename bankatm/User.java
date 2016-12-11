@@ -76,6 +76,15 @@ public class User {
 			}
 		});
 		
+		intertrans.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new InterTrans(t);
+			}
+		});
+		
 		logout.addActionListener(new ActionListener() {
 
 			@Override
