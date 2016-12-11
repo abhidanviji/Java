@@ -47,18 +47,14 @@ public class Bank {
 				id = t.getId();
 				// Login Validation
 				try {
-					Class.forName("com.mysql.jdbc.Driver");
-					java.sql.Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root",
-							"oracle");
+					Class.forName(t.className);
+					Connection con = DriverManager.getConnection(t.host + t.db, t.user, t.pwd);
 					Statement stmt = con.createStatement();
 					ResultSet res = stmt.executeQuery("select * from banklogin where userid = '" + t.getId() + "';");
 					if (res.next()) {
 						if (res.getString(1).equals(userid.getText())
 								&& res.getString(2).equals(String.valueOf(pwd.getPassword()))) {
 
-							System.out.println("Login Successfull");
-
-							System.out.println("Welcome " + id);
 							if (id.equals("admin")) {
 								t.setMessage("Welcome " + id);
 								frame.setVisible(false);
@@ -77,7 +73,7 @@ public class Bank {
 						userid.setText("");
 						pwd.setText("");
 					}
-
+					con.close();
 				} catch (Exception exc) {
 					exc.printStackTrace();
 				}

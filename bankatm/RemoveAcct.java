@@ -14,8 +14,8 @@ public class RemoveAcct {
 
 	public RemoveAcct(TransactionObject t){
 		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
+			Class.forName(t.className);
+			Connection con = DriverManager.getConnection(t.host+t.db, t.user, t.pwd);
 			Statement stmt = con.createStatement();
 			
 			ResultSet res = stmt.executeQuery("select acctnum from bankaccount;");
