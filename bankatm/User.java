@@ -15,6 +15,7 @@ public class User {
 		
 		JTextPane msg = new JTextPane();
 		msg.setText(t.getMessage());
+		msg.setFocusable(false);
 		
 		JButton changepwd = new JButton("Change Password");
 		JButton viewacct = new JButton("View Account Details");
@@ -47,6 +48,15 @@ public class User {
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		panel.add(logout,gbc);
+		
+		viewacct.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new ViewAcct(t);
+			}
+		});
 		
 		changepwd.addActionListener(new ActionListener() {
 

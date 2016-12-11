@@ -14,6 +14,7 @@ public class Admin {
 
 		JTextPane msg = new JTextPane();
 		msg.setText(t.getMessage());
+		msg.setFocusable(false);
 
 		JButton newuser = new JButton("New User");
 		JButton addacct = new JButton("Add Account");
