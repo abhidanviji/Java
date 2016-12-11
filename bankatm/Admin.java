@@ -10,6 +10,11 @@ public class Admin {
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
+		JPanel panel1 = new JPanel();
+		
+		JTextPane msg = new JTextPane();
+		msg.setText(t.getMessage());
+		
 		
 		JButton newuser = new JButton("New User");
 		JButton addacct = new JButton("Add Account");
@@ -28,6 +33,7 @@ public class Admin {
 		gbc.gridwidth = 3;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		panel1.add(msg);
 		
 		panel.add(newuser,gbc);
 		gbc.gridwidth = 1;
@@ -47,9 +53,8 @@ public class Admin {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JPanel panel1 = new JPanel();
-				frame.add(panel1, BorderLayout.CENTER);
-				frame.pack();
+				frame.setVisible(false);
+				new NewUser(t);
 			}
 		});
 		
@@ -63,6 +68,7 @@ public class Admin {
 		});
 		
 		frame.add(panel, BorderLayout.CENTER);
+		frame.add(panel1, BorderLayout.NORTH);
 		frame.pack();
 		Dimension frameDim = frame.getSize();
 		frame.setSize(550, 400);

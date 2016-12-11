@@ -13,6 +13,7 @@ public class Bank {
 		JFrame frame;
 		frame = new JFrame("ATM");
 		JPanel panel = new JPanel();
+		
 		JLabel ulabel = new JLabel("User ID");
 		JTextField userid = new JTextField(10);
 		JLabel plabel = new JLabel("Password");
@@ -59,9 +60,11 @@ public class Bank {
 							id = t.getId();
 							System.out.println("Welcome " + id);
 							if (id.equals("admin")) {
+								t.setMessage("Welcome "+id);
 								frame.setVisible(false);
 								new Admin(t);
 							} else {
+								t.setMessage("Welcome "+id);
 								frame.setVisible(false);
 								new User(t);
 							}
@@ -76,6 +79,7 @@ public class Bank {
 		});
 
 		frame.add(panel, BorderLayout.CENTER);
+		
 		frame.pack();
 		Dimension frameDim = frame.getSize();
 		frame.setSize(550, 400);

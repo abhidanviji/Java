@@ -11,6 +11,10 @@ public class User {
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
+		JPanel panel1 = new JPanel();
+		
+		JTextPane msg = new JTextPane();
+		msg.setText(t.getMessage());
 		
 		JButton changepwd = new JButton("Change Password");
 		JButton viewacct = new JButton("View Account Details");
@@ -29,7 +33,7 @@ public class User {
 		gbc.gridwidth = 3;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		
+		panel1.add(msg);
 		panel.add(changepwd,gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
@@ -54,6 +58,7 @@ public class User {
 		});
 		
 		frame.add(panel, BorderLayout.CENTER);
+		frame.add(panel1, BorderLayout.NORTH);
 		frame.pack();
 		Dimension frameDim = frame.getSize();
 		frame.setSize(550, 400);
