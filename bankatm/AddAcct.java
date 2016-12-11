@@ -8,14 +8,38 @@ import javax.swing.*;
 public class AddAcct {
 	
 	String msg = "";
+	int count=0;
+	String username[];
+	String accttype[] = {"Savings","Checkings"};
+	
 	public AddAcct(TransactionObject t){
+		try{
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
+		Statement stmt = con.createStatement();
+		
+		ResultSet res = stmt.executeQuery("select distinct username from bankaccount;");
+
+		while (res.next()) {
+			count++;
+
+		}
+		username = new String[count];
+		ResultSet res1 = stmt.executeQuery("select distinct username from bankaccount;");
+		count = 0;
+		while (res1.next()) {
+			username[count] = res1.getString(1);
+			count++;
+		}
+		
+		
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
 		JLabel lname = new JLabel("User Name");
-		JTextField name = new JTextField(10);
+		JComboBox name = new JComboBox(username);
 		JLabel ltype = new JLabel("Account Type");
-		JTextField atype = new JTextField(10);
+		JComboBox atype = new JComboBox(accttype);
 		JLabel lamt = new JLabel("Amount");
 		JTextField amt = new JTextField(10);
 		JButton create = new JButton("Create");
@@ -67,12 +91,10 @@ public class AddAcct {
 			public void actionPerformed(ActionEvent e) {
 				
 				try{
-					Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
-					Statement stmt = con.createStatement();
+					
 										
-					t.setName(name.getText());
-					t.setType(atype.getText());
+					t.setName((String)name.getSelectedItem());
+					t.setType((String)atype.getSelectedItem());
 					t.setAmount(Float.parseFloat(amt.getText()));
 					
 					ResultSet rs = stmt.executeQuery("select userid from bankaccount where  username = '" + t.getName() + "';");
@@ -126,5 +148,9 @@ public class AddAcct {
 			}
 		});
 		frame.setVisible(true);
+		con.close();
+		}catch(Exception e){
+			
+		}
 	}
 }

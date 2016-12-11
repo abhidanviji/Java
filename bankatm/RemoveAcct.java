@@ -7,19 +7,37 @@ import javax.swing.*;
 
 public class RemoveAcct {
 	
-	String user = "",msg="";
-	int acctnum=0;
+	String msg="";
+	int count=0;
+	String acctnum[];
+	
 
 	public RemoveAcct(TransactionObject t){
-		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
+			Statement stmt = con.createStatement();
+			
+			ResultSet res = stmt.executeQuery("select acctnum from bankaccount;");
+
+			while (res.next()) {
+				count++;
+
+			}
+			acctnum = new String[count];
+			ResultSet res1 = stmt.executeQuery("select acctnum from bankaccount;");
+			count = 0;
+			while (res1.next()) {
+				acctnum[count] = res1.getString(1);
+				count++;
+			}
+			
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
 		
-		JLabel lname = new JLabel("User Name");
-		JTextField name = new JTextField(10);
 		JLabel lacct = new JLabel("Account to be deleted");
-		JTextField acct = new JTextField(10);
+		JComboBox acct = new JComboBox(acctnum);
 		JButton remove = new JButton("Delete");
 		JButton back = new JButton("Back");
 		
@@ -29,12 +47,6 @@ public class RemoveAcct {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		
-		panel.add(lname, gbc);
-		gbc.gridx = gbc.gridx + 10;
-		panel.add(name, gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = gbc.gridy + 5;
-		gbc.gridx = 0;
 		panel.add(lacct, gbc);
 		gbc.gridx = gbc.gridx + 10;
 		panel.add(acct, gbc);
@@ -62,20 +74,15 @@ public class RemoveAcct {
 			public void actionPerformed(ActionEvent e) {
 				
 				try{
-					Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
-					Statement stmt = con.createStatement();
 					
-					user = name.getText();
-					acctnum = Integer.parseInt(acct.getText());
+					
+					t.setNum((String)acct.getSelectedItem());
 					
 					
 					
-					
-				String query1 = "delete from bankaccount where username = ? and acctnum = ?";
+				String query1 = "delete from bankaccount where acctnum = ?";
 				PreparedStatement preparedStmt1 = con.prepareStatement(query1);
-				preparedStmt1.setString(1, user);
-				preparedStmt1.setInt(2, acctnum);
+				preparedStmt1.setInt(1, Integer.parseInt(t.getNum()));
 				preparedStmt1.execute();
 
 				msg = msg+"Account Successfully Removed. ";
@@ -106,5 +113,9 @@ public class RemoveAcct {
 			}
 		});
 		frame.setVisible(true);
+		con.close();
+		}catch(Exception e){
+			
+		}
 	}
 }

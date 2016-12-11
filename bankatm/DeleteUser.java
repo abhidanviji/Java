@@ -7,15 +7,35 @@ import javax.swing.*;
 
 public class DeleteUser {
 	
-	String user = "",id="",msg="";
+	String msg="";
+	String username[];
+	int count=0;
 
 	public DeleteUser(TransactionObject t){
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
+			Statement stmt = con.createStatement();
+			
+			ResultSet res = stmt.executeQuery("select distinct username from bankaccount;");
+
+			while (res.next()) {
+				count++;
+
+			}
+			username = new String[count];
+			ResultSet res1 = stmt.executeQuery("select distinct username from bankaccount;");
+			count = 0;
+			while (res1.next()) {
+				username[count] = res1.getString(1);
+				count++;
+			}
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
 		
 		JLabel lname = new JLabel("User to be Deleted");
-		JTextField name = new JTextField(10);
+		JComboBox name = new JComboBox(username);
 		
 		JButton remove = new JButton("Delete");
 		JButton back = new JButton("Back");
@@ -54,27 +74,24 @@ public class DeleteUser {
 			public void actionPerformed(ActionEvent e) {
 				
 				try{
-					Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
-					Statement stmt = con.createStatement();
 					
-					user = name.getText();			
-					ResultSet rs = stmt.executeQuery("select userid from bankaccount where  username = '" + user + "';");
+					t.setName((String)name.getSelectedItem());
+					ResultSet rs = stmt.executeQuery("select userid from bankaccount where  username = '" + t.getName() + "';");
 					if(rs.next()){
-						id = rs.getString(1);
+						t.setId(rs.getString(1));
 					}
 					
 					
 				String query1 = "delete from bankaccount where username = ?";
 				PreparedStatement preparedStmt1 = con.prepareStatement(query1);
-				preparedStmt1.setString(1, user);
+				preparedStmt1.setString(1, t.getName());
 				preparedStmt1.execute();
 
 				msg = msg+"Account Successfully Removed. ";
 				
 				String query2 = "delete from banklogin where userid = ?";
 				PreparedStatement preparedStmt2 = con.prepareStatement(query2);
-				preparedStmt2.setString(1, id);
+				preparedStmt2.setString(1, t.getId());
 				preparedStmt2.execute();
 				
 				msg = msg+"User Successfully Removed. ";
@@ -83,6 +100,7 @@ public class DeleteUser {
 				msg = msg+"Something went wrong!"+ex;
 			}
 				t.setMessage(msg);
+				t.setId("admin");
 				frame.setVisible(false);
 				new Admin(t);
 			}
@@ -105,5 +123,9 @@ public class DeleteUser {
 			}
 		});
 		frame.setVisible(true);
+		con.close();
+		}catch(Exception e){
+			
+		}
 	}
 }

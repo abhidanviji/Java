@@ -81,7 +81,7 @@ public class ChangePwd {
 					}else{
 						msg = msg+"Password Mismatch. ";
 					}
-
+					con.close();
 			} catch (Exception ex) {
 				msg = msg+"Something went wrong!"+ex;
 			}

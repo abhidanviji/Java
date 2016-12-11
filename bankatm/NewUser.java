@@ -8,7 +8,7 @@ import javax.swing.*;
 public class NewUser {
 	
 	String msg = "";
-
+	String accttype[] = {"Savings","Checkings"};
 	public NewUser(TransactionObject t){
 				
 		JFrame frame;
@@ -23,7 +23,7 @@ public class NewUser {
 		JLabel lname = new JLabel("User Name");
 		JTextField name = new JTextField(10);
 		JLabel ltype = new JLabel("Account Type");
-		JTextField atype = new JTextField(10);
+		JComboBox atype = new JComboBox(accttype);
 		JLabel lamt = new JLabel("Amount");
 		JTextField amt = new JTextField(10);
 		JButton create = new JButton("Create");
@@ -94,7 +94,7 @@ public class NewUser {
 					t.setId(uid.getText());
 					t.setNum(String.valueOf(tpwd.getPassword()));
 					t.setName(name.getText());
-					t.setType(atype.getText());
+					t.setType((String)atype.getSelectedItem());
 					t.setAmount(Float.parseFloat(amt.getText()));
 					
 					String query = " insert into banklogin (userid, password) values (?, ?);";
@@ -120,7 +120,7 @@ public class NewUser {
 				
 					msg = msg+"Account Num - " + res.getString(1);
 				}
-
+				con.close();
 			} catch (Exception ex) {
 				msg = msg+"Something went wrong!";
 			}

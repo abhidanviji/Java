@@ -156,6 +156,7 @@ public class IntraTrans {
 				}
 			});
 			frame.setVisible(true);
+			con.close();
 		} catch (Exception exc) {
 
 		}

@@ -16,12 +16,14 @@ public class Admin {
 		msg.setText(t.getMessage());
 		msg.setFocusable(false);
 
+		JButton viewall = new JButton("View Accounts");
 		JButton newuser = new JButton("New User");
 		JButton addacct = new JButton("Add Account");
 		JButton removeacct = new JButton("Remove Account");
 		JButton deleteuser = new JButton("Delete User");
 		JButton logout = new JButton("Logout");
-
+		
+		viewall.setPreferredSize(new Dimension(200, 20));
 		newuser.setPreferredSize(new Dimension(200, 20));
 		addacct.setPreferredSize(new Dimension(200, 20));
 		removeacct.setPreferredSize(new Dimension(200, 20));
@@ -35,6 +37,9 @@ public class Admin {
 		gbc.gridy = 0;
 		panel1.add(msg);
 
+		panel.add(viewall, gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
 		panel.add(newuser, gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
@@ -49,6 +54,15 @@ public class Admin {
 		gbc.gridy = gbc.gridy + 5;
 		panel.add(logout, gbc);
 
+		viewall.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new ViewAcct(t);
+			}
+		});
+		
 		newuser.addActionListener(new ActionListener() {
 
 			@Override

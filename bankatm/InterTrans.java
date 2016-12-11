@@ -177,6 +177,7 @@ public class InterTrans {
 				}
 			});
 			frame.setVisible(true);
+			con.close();
 		} catch (Exception exc) {
 
 		}

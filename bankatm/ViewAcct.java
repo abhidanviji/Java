@@ -54,8 +54,14 @@ public static String padLeft(String s, int n) {
 					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
 					Statement stmt = con.createStatement();
 					
-				
-					
+				if(t.getId().equals("admin")){
+					ResultSet res = stmt.executeQuery("select * from bankaccount;");
+					det = det+padRight("Name", 20)+padRight("Acct No", 20)+padRight("Acct Type", 20)+padRight("Amount", 20)+padRight("Date", 20)+"\n";
+					det = det+"**********************************************************************************\n";
+					while(res.next()){
+						det = det+padRight(res.getString("username"), 20)+padRight(String.valueOf(res.getInt("acctnum")), 20)+padRight(res.getString("type"), 20)+padRight(String.valueOf(res.getDouble("amount")), 20)+padRight(String.valueOf(res.getDate("date")), 20)+"\n";
+					}
+				}else{
 					
 					ResultSet res = stmt.executeQuery("select * from bankaccount where userid = '" + t.getId() + "';");
 					det = det+padRight("Name", 20)+padRight("Acct No", 20)+padRight("Acct Type", 20)+padRight("Amount", 20)+padRight("Date", 20)+"\n";
@@ -63,8 +69,11 @@ public static String padLeft(String s, int n) {
 					while(res.next()){
 						det = det+padRight(res.getString("username"), 20)+padRight(String.valueOf(res.getInt("acctnum")), 20)+padRight(res.getString("type"), 20)+padRight(String.valueOf(res.getDouble("amount")), 20)+padRight(String.valueOf(res.getDate("date")), 20)+"\n";
 					}
+				}
 					details.setText(det);
 					details.setFocusable(false);
+				
+					con.close();
 			} catch (Exception ex) {
 				msg = msg+"Something went wrong!"+ex;
 			}
