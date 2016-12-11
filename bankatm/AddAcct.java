@@ -120,7 +120,7 @@ public class AddAcct {
 				
 					msg = msg+"Account Num - " + res.getString(1);
 				}
-
+				con.close();
 			} catch (Exception ex) {
 				msg = msg+"Something went wrong!"+ex;
 			}
@@ -148,7 +148,7 @@ public class AddAcct {
 			}
 		});
 		frame.setVisible(true);
-		con.close();
+		
 		}catch(Exception e){
 			
 		}

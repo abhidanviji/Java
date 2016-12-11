@@ -86,7 +86,7 @@ public class RemoveAcct {
 				preparedStmt1.execute();
 
 				msg = msg+"Account Successfully Removed. ";
-
+				con.close();
 			} catch (Exception ex) {
 				msg = msg+"Something went wrong!"+ex;
 			}
@@ -113,7 +113,7 @@ public class RemoveAcct {
 			}
 		});
 		frame.setVisible(true);
-		con.close();
+		
 		}catch(Exception e){
 			
 		}

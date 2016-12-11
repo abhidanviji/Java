@@ -3,24 +3,15 @@ package bankatm;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import javax.swing.*;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-
-public class InterTrans {
+public class Deposit {
 	String msg = "";
-	String acct[],acct1[];
-	int count=0;
-	Double amto = 0.0,amfrom=0.0;
-
-	public InterTrans(TransactionObject t) {
-		TransactionObject t1 = new TransactionObject();
+	String acct[];
+	int count = 0;
+	Double amto = 0.0, amfrom = 0.0;
+	
+	public Deposit(TransactionObject t){
 		try {
 
 			Class.forName(t.className);
@@ -39,38 +30,22 @@ public class InterTrans {
 				acct[count] = res1.getString(1);
 				count++;
 			}
-			int count =0;
-			ResultSet r = stmt.executeQuery("select acctnum from bankaccount where userid != '" + t.getId() + "';");
 
-			while (r.next()) {
-				count++;
-
-			}
-			acct1 = new String[count];
-			ResultSet r1 = stmt.executeQuery("select acctnum from bankaccount where userid != '" + t.getId() + "';");
-			count = 0;
-			while (r1.next()) {
-				acct1[count] = r1.getString(1);
-				count++;
-			}
-
-			
 			JFrame frame;
 			frame = new JFrame(t.getId() + " ATM");
 			JPanel panel = new JPanel();
 
-			JLabel lfrom = new JLabel("From");
+			JLabel lto = new JLabel("Account to Deposit to");
 			// JTextField from = new JTextField(10);
-			JComboBox from = new JComboBox(acct);
-			JLabel lto = new JLabel("To");
-			// JTextField to = new JTextField(10);
-			JComboBox to = new JComboBox(acct1);
-			JLabel lamt = new JLabel("Amount to Transfer");
-			JTextField amt = new JTextField(10);
+			JComboBox to = new JComboBox(acct);
 			
+			JLabel lamt = new JLabel("Amount to Deposit");
+			JTextField amt = new JTextField(10);
 
-			JButton transfer = new JButton("Transfer");
+			JButton deposit = new JButton("Deposit");
 			JButton back = new JButton("Back");
+
+			
 
 			panel.setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -78,25 +53,20 @@ public class InterTrans {
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 
-			panel.add(lfrom, gbc);
-			gbc.gridx = gbc.gridx + 10;
-			panel.add(from, gbc);
-			gbc.gridwidth = 1;
-			gbc.gridy = gbc.gridy + 5;
-			gbc.gridx = 0;
 			panel.add(lto, gbc);
 			gbc.gridx = gbc.gridx + 10;
 			panel.add(to, gbc);
 			gbc.gridwidth = 1;
 			gbc.gridy = gbc.gridy + 5;
 			gbc.gridx = 0;
+			
 			panel.add(lamt, gbc);
 			gbc.gridx = gbc.gridx + 10;
 			panel.add(amt, gbc);
 			gbc.gridwidth = 1;
 			gbc.gridy = gbc.gridy + 5;
 
-			panel.add(transfer, gbc);
+			panel.add(deposit, gbc);
 			gbc.gridwidth = 1;
 			gbc.gridy = gbc.gridy + 5;
 
@@ -111,45 +81,32 @@ public class InterTrans {
 				}
 			});
 
-			transfer.addActionListener(new ActionListener() {
+			deposit.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					t.setNum((String) from.getSelectedItem());
-					t1.setNum((String) to.getSelectedItem());
+					t.setNum((String) to.getSelectedItem());
 					try {
-						ResultSet rset = stmt.executeQuery(
-								"select amount from bankaccount where acctnum = '" + t1.getNum() + "';");
-						if (rset.next()) {
-							amto = rset.getDouble(1);
-						}
+						
 
 						ResultSet rs = stmt.executeQuery(
 								"select amount from bankaccount where acctnum = '" + t.getNum() + "';");
 
 						if (rs.next()) {
-							amfrom = rs.getDouble(1);
-							if (amfrom < Double.parseDouble(amt.getText())) {
-								msg = msg + "Insufficient Balance. ";
-							} else {
-								t.setAmount(amfrom.floatValue() - Float.parseFloat(amt.getText()) );
-								t1.setAmount(amto.floatValue() + Float.parseFloat(amt.getText()) );
+							amto = rs.getDouble(1);
+							
+								t.setAmount(amto.floatValue() + Float.parseFloat(amt.getText()) );
+								
 								String query = " update bankaccount set amount = ? where acctnum = '"
 										+ t.getNum() + "';";
 								PreparedStatement ps = con.prepareStatement(query);
 								ps.setDouble(1, t.getAmount());
 								ps.execute();
 
-								String query1 = " update bankaccount set amount = ? where acctnum = '"
-										+ t1.getNum() + "';";
-								PreparedStatement ps1 = con.prepareStatement(query1);
-								ps1.setDouble(1, t1.getAmount());
-								ps1.execute();
-
-								msg = msg + "Tranfer Successfull. ";
+								msg = msg + "Deposit Successfull. ";
 							}
 
-						}
+						
 						con.close();
 					} catch (Exception ex) {
 						msg = msg + "Something went wrong!" + ex;
@@ -177,11 +134,9 @@ public class InterTrans {
 				}
 			});
 			frame.setVisible(true);
-			
+
 		} catch (Exception exc) {
 
 		}
-
 	}
-
 }

@@ -95,7 +95,7 @@ public class DeleteUser {
 				preparedStmt2.execute();
 				
 				msg = msg+"User Successfully Removed. ";
-
+				con.close();
 			} catch (Exception ex) {
 				msg = msg+"Something went wrong!"+ex;
 			}
@@ -123,7 +123,7 @@ public class DeleteUser {
 			}
 		});
 		frame.setVisible(true);
-		con.close();
+		
 		}catch(Exception e){
 			
 		}

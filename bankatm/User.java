@@ -21,12 +21,16 @@ public class User {
 		JButton viewacct = new JButton("View Account Details");
 		JButton intratrans = new JButton("Intra Account Transfer");
 		JButton intertrans = new JButton("Inter Account Transfer");
+		JButton withdraw = new JButton("Withdraw");
+		JButton deposit = new JButton("Deposit");
 		JButton logout = new JButton("Logout");
 		
 		changepwd.setPreferredSize(new Dimension(200, 20));
 		viewacct.setPreferredSize(new Dimension(200, 20));
 		intratrans.setPreferredSize(new Dimension(200, 20));
 		intertrans.setPreferredSize(new Dimension(200, 20));
+		withdraw.setPreferredSize(new Dimension(200, 20));
+		deposit.setPreferredSize(new Dimension(200, 20));
 		logout.setPreferredSize(new Dimension(200, 20));
 		
 		panel.setLayout(new GridBagLayout());
@@ -45,6 +49,12 @@ public class User {
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		panel.add(intertrans,gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
+		panel.add(withdraw,gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = gbc.gridy + 5;
+		panel.add(deposit,gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		panel.add(logout,gbc);
@@ -84,6 +94,25 @@ public class User {
 				new InterTrans(t);
 			}
 		});
+		
+		withdraw.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new Withdraw(t);
+			}
+		});
+		
+		deposit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new Deposit(t);
+			}
+		});
+		
 		
 		logout.addActionListener(new ActionListener() {
 

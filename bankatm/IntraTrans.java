@@ -114,13 +114,13 @@ public class IntraTrans {
 								t.setAmount(amfrom.floatValue() - Float.parseFloat(amt.getText()) );
 								t1.setAmount(amto.floatValue() + Float.parseFloat(amt.getText()) );
 								String query = " update bankaccount set amount = ? where acctnum = '"
-										+ from.getSelectedItem() + "';";
+										+ t.getNum() + "';";
 								PreparedStatement ps = con.prepareStatement(query);
 								ps.setDouble(1, t.getAmount());
 								ps.execute();
 
 								String query1 = " update bankaccount set amount = ? where acctnum = '"
-										+ to.getSelectedItem() + "';";
+										+ t1.getNum() + "';";
 								PreparedStatement ps1 = con.prepareStatement(query1);
 								ps1.setDouble(1, t1.getAmount());
 								ps1.execute();
@@ -129,7 +129,7 @@ public class IntraTrans {
 							}
 
 						}
-
+						con.close();
 					} catch (Exception ex) {
 						msg = msg + "Something went wrong!" + ex;
 					}
@@ -156,7 +156,7 @@ public class IntraTrans {
 				}
 			});
 			frame.setVisible(true);
-			con.close();
+			
 		} catch (Exception exc) {
 
 		}
