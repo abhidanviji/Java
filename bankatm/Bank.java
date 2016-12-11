@@ -62,7 +62,8 @@ public class Bank {
 								frame.setVisible(false);
 								new Admin(t);
 							} else {
-
+								frame.setVisible(false);
+								new User(t);
 							}
 
 						}

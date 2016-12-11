@@ -5,22 +5,23 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.sql.*;
 
-public class Admin {
-	public Admin(TransactionObject t){
+public class User {
+
+	public User(TransactionObject t){
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
 		
-		JButton newuser = new JButton("New User");
-		JButton addacct = new JButton("Add Account");
-		JButton removeacct = new JButton("Remove Account");
-		JButton deleteuser = new JButton("Delete User");
+		JButton changepwd = new JButton("Change Password");
+		JButton viewacct = new JButton("View Account Details");
+		JButton intratrans = new JButton("Intra Account Transfer");
+		JButton intertrans = new JButton("Inter Account Transfer");
 		JButton logout = new JButton("Logout");
 		
-		newuser.setPreferredSize(new Dimension(200, 20));
-		addacct.setPreferredSize(new Dimension(200, 20));
-		removeacct.setPreferredSize(new Dimension(200, 20));
-		deleteuser.setPreferredSize(new Dimension(200, 20));
+		changepwd.setPreferredSize(new Dimension(200, 20));
+		viewacct.setPreferredSize(new Dimension(200, 20));
+		intratrans.setPreferredSize(new Dimension(200, 20));
+		intertrans.setPreferredSize(new Dimension(200, 20));
 		logout.setPreferredSize(new Dimension(200, 20));
 		
 		panel.setLayout(new GridBagLayout());
@@ -29,29 +30,19 @@ public class Admin {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		
-		panel.add(newuser,gbc);
+		panel.add(changepwd,gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
-		panel.add(addacct,gbc);
+		panel.add(viewacct,gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
-		panel.add(removeacct,gbc);
+		panel.add(intratrans,gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
-		panel.add(deleteuser,gbc);
+		panel.add(intertrans,gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		panel.add(logout,gbc);
-		
-		newuser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JPanel panel1 = new JPanel();
-				frame.add(panel1, BorderLayout.CENTER);
-				frame.pack();
-			}
-		});
 		
 		logout.addActionListener(new ActionListener() {
 
