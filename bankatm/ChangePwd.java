@@ -5,21 +5,24 @@ import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
 
-public class AddAcct {
-	String user = "", type = "",id="";
-	Double amount = 0.0;
-	String msg = "";
-	public AddAcct(TransactionObject t){
+public class ChangePwd {
+	
+	String id = "", opwd = "",pwd="",msg="";
+
+	public ChangePwd(TransactionObject t){
+		
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
-		JLabel lname = new JLabel("User Name");
-		JTextField name = new JTextField(10);
-		JLabel ltype = new JLabel("Account Type");
-		JTextField atype = new JTextField(10);
-		JLabel lamt = new JLabel("Amount");
-		JTextField amt = new JTextField(10);
-		JButton create = new JButton("Create");
+		
+		
+		JLabel ltpwd = new JLabel("New Password");
+		JPasswordField tpwd = new JPasswordField(10);
+		JLabel lnpwd = new JLabel("Re-enter Password");
+		JPasswordField npwd = new JPasswordField(10);
+		
+		
+		JButton change = new JButton("Change");
 		JButton back = new JButton("Back");
 		
 		
@@ -30,26 +33,19 @@ public class AddAcct {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		
-		
-		panel.add(lname, gbc);
+		panel.add(ltpwd, gbc);
 		gbc.gridx = gbc.gridx + 10;
-		panel.add(name, gbc);
+		panel.add(tpwd, gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		gbc.gridx = 0;
-		panel.add(ltype, gbc);
+		panel.add(lnpwd, gbc);
 		gbc.gridx = gbc.gridx + 10;
-		panel.add(atype, gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = gbc.gridy + 5;
-		gbc.gridx = 0;
-		panel.add(lamt, gbc);
-		gbc.gridx = gbc.gridx + 10;
-		panel.add(amt, gbc);
+		panel.add(npwd, gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		
-		panel.add(create,gbc);
+		panel.add(change,gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		
@@ -60,11 +56,11 @@ public class AddAcct {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new Admin(t);
+				new User(t);
 			}
 		});
 		
-		create.addActionListener(new ActionListener() {
+		change.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -73,41 +69,25 @@ public class AddAcct {
 					Class.forName("com.mysql.jdbc.Driver");
 					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
 					Statement stmt = con.createStatement();
-					
-					user = name.getText();
-					type = atype.getText();
-					amount = Double.parseDouble(amt.getText());
-					
-					ResultSet rs = stmt.executeQuery("select userid from bankaccount where  username = '" + user + "';");
-					if(rs.next()){
-						id = rs.getString(1);
+					opwd= String.valueOf(tpwd.getPassword());
+					pwd= String.valueOf(npwd.getPassword());
+					if(opwd.equals(pwd)){
+					String query1 = " update banklogin set password = ? where userid = '" + t.getId() + "';";
+					PreparedStatement ps1 = con.prepareStatement(query1);
+					ps1.setString(1, pwd);
+					ps1.execute();
+
+				msg = msg+"Password Reset Successful. ";
+					}else{
+						msg = msg+"Password Mismatch. ";
 					}
-					
-					
-					
-				String query1 = " insert into bankaccount (userid, username,type,amount) values (?,?,?,?);";
-				PreparedStatement preparedStmt1 = con.prepareStatement(query1);
-				preparedStmt1.setString(1, id);
-				preparedStmt1.setString(2, user);
-				preparedStmt1.setString(3, type);
-				preparedStmt1.setDouble(4, amount);
-				preparedStmt1.execute();
-
-				msg = msg+"Account Successfully Added. ";
-				ResultSet res = stmt.executeQuery(
-						"select acctnum from bankaccount where userid = '" + id + "' and username = '" + user + "' order by date desc;");
-
-				if (res.next()) {
-				
-					msg = msg+"Account Num - " + res.getString(1);
-				}
 
 			} catch (Exception ex) {
 				msg = msg+"Something went wrong!"+ex;
 			}
 				t.setMessage(msg);
 				frame.setVisible(false);
-				new Admin(t);
+				new User(t);
 			}
 		});
 		
@@ -128,5 +108,6 @@ public class AddAcct {
 			}
 		});
 		frame.setVisible(true);
+		
 	}
 }

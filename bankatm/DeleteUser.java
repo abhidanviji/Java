@@ -5,24 +5,20 @@ import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
 
-public class AddAcct {
-	String user = "", type = "",id="";
-	Double amount = 0.0;
-	String msg = "";
-	public AddAcct(TransactionObject t){
+public class DeleteUser {
+	
+	String user = "",id="",msg="";
+
+	public DeleteUser(TransactionObject t){
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
-		JLabel lname = new JLabel("User Name");
+		
+		JLabel lname = new JLabel("User to be Deleted");
 		JTextField name = new JTextField(10);
-		JLabel ltype = new JLabel("Account Type");
-		JTextField atype = new JTextField(10);
-		JLabel lamt = new JLabel("Amount");
-		JTextField amt = new JTextField(10);
-		JButton create = new JButton("Create");
+		
+		JButton remove = new JButton("Delete");
 		JButton back = new JButton("Back");
-		
-		
 		
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -30,26 +26,14 @@ public class AddAcct {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		
-		
 		panel.add(lname, gbc);
 		gbc.gridx = gbc.gridx + 10;
 		panel.add(name, gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = gbc.gridy + 5;
-		gbc.gridx = 0;
-		panel.add(ltype, gbc);
-		gbc.gridx = gbc.gridx + 10;
-		panel.add(atype, gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = gbc.gridy + 5;
-		gbc.gridx = 0;
-		panel.add(lamt, gbc);
-		gbc.gridx = gbc.gridx + 10;
-		panel.add(amt, gbc);
+		
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		
-		panel.add(create,gbc);
+		panel.add(remove,gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = gbc.gridy + 5;
 		
@@ -64,7 +48,7 @@ public class AddAcct {
 			}
 		});
 		
-		create.addActionListener(new ActionListener() {
+		remove.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -74,33 +58,26 @@ public class AddAcct {
 					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
 					Statement stmt = con.createStatement();
 					
-					user = name.getText();
-					type = atype.getText();
-					amount = Double.parseDouble(amt.getText());
-					
+					user = name.getText();			
 					ResultSet rs = stmt.executeQuery("select userid from bankaccount where  username = '" + user + "';");
 					if(rs.next()){
 						id = rs.getString(1);
 					}
 					
 					
-					
-				String query1 = " insert into bankaccount (userid, username,type,amount) values (?,?,?,?);";
+				String query1 = "delete from bankaccount where username = ?";
 				PreparedStatement preparedStmt1 = con.prepareStatement(query1);
-				preparedStmt1.setString(1, id);
-				preparedStmt1.setString(2, user);
-				preparedStmt1.setString(3, type);
-				preparedStmt1.setDouble(4, amount);
+				preparedStmt1.setString(1, user);
 				preparedStmt1.execute();
 
-				msg = msg+"Account Successfully Added. ";
-				ResultSet res = stmt.executeQuery(
-						"select acctnum from bankaccount where userid = '" + id + "' and username = '" + user + "' order by date desc;");
-
-				if (res.next()) {
+				msg = msg+"Account Successfully Removed. ";
 				
-					msg = msg+"Account Num - " + res.getString(1);
-				}
+				String query2 = "delete from banklogin where userid = ?";
+				PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+				preparedStmt2.setString(1, id);
+				preparedStmt2.execute();
+				
+				msg = msg+"User Successfully Removed. ";
 
 			} catch (Exception ex) {
 				msg = msg+"Something went wrong!"+ex;

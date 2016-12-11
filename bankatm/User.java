@@ -48,6 +48,15 @@ public class User {
 		gbc.gridy = gbc.gridy + 5;
 		panel.add(logout,gbc);
 		
+		changepwd.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new ChangePwd(t);
+			}
+		});
+		
 		logout.addActionListener(new ActionListener() {
 
 			@Override
