@@ -43,6 +43,8 @@ public class Bank {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				t.setId(userid.getText());
+				id = t.getId();
 				// Login Validation
 				try {
 					Class.forName("com.mysql.jdbc.Driver");
@@ -50,14 +52,13 @@ public class Bank {
 							"oracle");
 					Statement stmt = con.createStatement();
 					ResultSet res = stmt
-							.executeQuery("select * from banklogin where userid = '" + userid.getText() + "';");
+							.executeQuery("select * from banklogin where userid = '" + t.getId()+ "';");
 					if (res.next()) {
 						if (res.getString(1).equals(userid.getText())
 								&& res.getString(2).equals(String.valueOf(pwd.getPassword()))) {
 
 							System.out.println("Login Successfull");
-							t.setId(userid.getText());
-							id = t.getId();
+							
 							System.out.println("Welcome " + id);
 							if (id.equals("admin")) {
 								t.setMessage("Welcome "+id);
@@ -69,7 +70,13 @@ public class Bank {
 								new User(t);
 							}
 
+						}else{
+							userid.setText("");
+							pwd.setText("");
 						}
+					}else{
+						userid.setText("");
+						pwd.setText("");
 					}
 
 				} catch (Exception exc) {

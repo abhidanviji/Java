@@ -13,6 +13,7 @@ public class IntraTrans {
 	Double amto = 0.0,amfrom=0.0;
 
 	public IntraTrans(TransactionObject t) {
+		TransactionObject t1 = new TransactionObject();
 		try {
 
 			Class.forName("com.mysql.jdbc.Driver");
@@ -50,6 +51,9 @@ for(int i=0;i<count;i++){
 
 			JButton transfer = new JButton("Transfer");
 			JButton back = new JButton("Back");
+			
+			t.setNum((String)from.getSelectedItem());
+			t1.setNum((String)to.getSelectedItem());
 
 			panel.setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
