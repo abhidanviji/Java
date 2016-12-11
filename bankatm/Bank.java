@@ -13,7 +13,7 @@ public class Bank {
 		JFrame frame;
 		frame = new JFrame("ATM");
 		JPanel panel = new JPanel();
-		
+
 		JLabel ulabel = new JLabel("User ID");
 		JTextField userid = new JTextField(10);
 		JLabel plabel = new JLabel("Password");
@@ -51,30 +51,29 @@ public class Bank {
 					java.sql.Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root",
 							"oracle");
 					Statement stmt = con.createStatement();
-					ResultSet res = stmt
-							.executeQuery("select * from banklogin where userid = '" + t.getId()+ "';");
+					ResultSet res = stmt.executeQuery("select * from banklogin where userid = '" + t.getId() + "';");
 					if (res.next()) {
 						if (res.getString(1).equals(userid.getText())
 								&& res.getString(2).equals(String.valueOf(pwd.getPassword()))) {
 
 							System.out.println("Login Successfull");
-							
+
 							System.out.println("Welcome " + id);
 							if (id.equals("admin")) {
-								t.setMessage("Welcome "+id);
+								t.setMessage("Welcome " + id);
 								frame.setVisible(false);
 								new Admin(t);
 							} else {
-								t.setMessage("Welcome "+id);
+								t.setMessage("Welcome " + id);
 								frame.setVisible(false);
 								new User(t);
 							}
 
-						}else{
+						} else {
 							userid.setText("");
 							pwd.setText("");
 						}
-					}else{
+					} else {
 						userid.setText("");
 						pwd.setText("");
 					}
@@ -86,7 +85,7 @@ public class Bank {
 		});
 
 		frame.add(panel, BorderLayout.CENTER);
-		
+
 		frame.pack();
 		Dimension frameDim = frame.getSize();
 		frame.setSize(550, 400);

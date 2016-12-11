@@ -22,7 +22,7 @@ public class Admin {
 		JButton removeacct = new JButton("Remove Account");
 		JButton deleteuser = new JButton("Delete User");
 		JButton logout = new JButton("Logout");
-		
+
 		viewall.setPreferredSize(new Dimension(200, 20));
 		newuser.setPreferredSize(new Dimension(200, 20));
 		addacct.setPreferredSize(new Dimension(200, 20));
@@ -62,7 +62,7 @@ public class Admin {
 				new ViewAcct(t);
 			}
 		});
-		
+
 		newuser.addActionListener(new ActionListener() {
 
 			@Override
@@ -89,7 +89,7 @@ public class Admin {
 				new RemoveAcct(t);
 			}
 		});
-		
+
 		deleteuser.addActionListener(new ActionListener() {
 
 			@Override
