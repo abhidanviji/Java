@@ -58,6 +58,15 @@ public class Admin {
 			}
 		});
 		
+		addacct.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new AddAcct(t);
+			}
+		});
+		
 		logout.addActionListener(new ActionListener() {
 
 			@Override
