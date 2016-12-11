@@ -10,6 +10,10 @@ public class Admin {
 		JFrame frame;
 		frame = new JFrame(t.getId()+" ATM");
 		JPanel panel = new JPanel();
+		JPanel panel1 = new JPanel();
+		JTextField t1 = new JTextField();
+		t1.setText("Hi");
+		
 		
 		JButton newuser = new JButton("New User");
 		JButton addacct = new JButton("Add Account");
@@ -17,39 +21,28 @@ public class Admin {
 		JButton deleteuser = new JButton("Delete User");
 		JButton logout = new JButton("Logout");
 		
-		newuser.setPreferredSize(new Dimension(200, 20));
-		addacct.setPreferredSize(new Dimension(200, 20));
-		removeacct.setPreferredSize(new Dimension(200, 20));
-		deleteuser.setPreferredSize(new Dimension(200, 20));
-		logout.setPreferredSize(new Dimension(200, 20));
+		newuser.setPreferredSize(new Dimension(150, 20));
+		addacct.setPreferredSize(new Dimension(150, 20));
+		removeacct.setPreferredSize(new Dimension(150, 20));
+		deleteuser.setPreferredSize(new Dimension(150, 20));
+		logout.setPreferredSize(new Dimension(150, 20));
 		
-		panel.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridwidth = 3;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
 		
-		panel.add(newuser,gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = gbc.gridy + 5;
-		panel.add(addacct,gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = gbc.gridy + 5;
-		panel.add(removeacct,gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = gbc.gridy + 5;
-		panel.add(deleteuser,gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = gbc.gridy + 5;
-		panel.add(logout,gbc);
+		
+		panel.add(newuser);
+		panel.add(addacct);
+		panel.add(removeacct);
+		panel.add(deleteuser);
+		panel.add(logout);
 		
 		newuser.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JPanel panel1 = new JPanel();
-				frame.add(panel1, BorderLayout.CENTER);
-				frame.pack();
+				
+				panel1.add(t1);
+				
+			
 			}
 		});
 		
@@ -62,10 +55,11 @@ public class Admin {
 			}
 		});
 		
-		frame.add(panel, BorderLayout.CENTER);
+		frame.add(panel, BorderLayout.NORTH);
+		frame.add(panel1, BorderLayout.CENTER);
 		frame.pack();
 		Dimension frameDim = frame.getSize();
-		frame.setSize(550, 400);
+		frame.setSize(850, 400);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(screenSize.width / 2 - frameDim.width / 2, screenSize.height / 4 - frameDim.height / 2);
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
