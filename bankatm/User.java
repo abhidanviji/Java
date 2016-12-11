@@ -49,6 +49,16 @@ public class User {
 		gbc.gridy = gbc.gridy + 5;
 		panel.add(logout,gbc);
 		
+		
+		
+		changepwd.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new ChangePwd(t);
+			}
+		});
 		viewacct.addActionListener(new ActionListener() {
 
 			@Override
@@ -57,13 +67,12 @@ public class User {
 				new ViewAcct(t);
 			}
 		});
-		
-		changepwd.addActionListener(new ActionListener() {
+		intratrans.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new ChangePwd(t);
+				new IntraTrans(t);
 			}
 		});
 		
