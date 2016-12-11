@@ -6,8 +6,7 @@ import java.sql.*;
 import javax.swing.*;
 
 public class NewUser {
-	String user = "", type = "", id = "", temppwd = "";
-	Double amount = 0.0;
+	
 	String msg = "";
 
 	public NewUser(TransactionObject t){
@@ -91,29 +90,31 @@ public class NewUser {
 					Class.forName("com.mysql.jdbc.Driver");
 					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
 					Statement stmt = con.createStatement();
-					id=uid.getText();
-					temppwd = String.valueOf(tpwd.getPassword());
-					user = name.getText();
-					type = atype.getText();
-					amount = Double.parseDouble(amt.getText());
+										
+					t.setId(uid.getText());
+					t.setNum(String.valueOf(tpwd.getPassword()));
+					t.setName(name.getText());
+					t.setType(atype.getText());
+					t.setAmount(Float.parseFloat(amt.getText()));
+					
 					String query = " insert into banklogin (userid, password) values (?, ?);";
 				PreparedStatement preparedStmt = con.prepareStatement(query);
-				preparedStmt.setString(1, id);
-				preparedStmt.setString(2, temppwd);
+				preparedStmt.setString(1, t.getId());
+				preparedStmt.setString(2, t.getNum());
 				preparedStmt.execute();
 
 				msg = msg+"Login Successfully Created. ";
 				String query1 = " insert into bankaccount (userid, username,type,amount) values (?,?,?,?);";
 				PreparedStatement preparedStmt1 = con.prepareStatement(query1);
-				preparedStmt1.setString(1, id);
-				preparedStmt1.setString(2, user);
-				preparedStmt1.setString(3, type);
-				preparedStmt1.setDouble(4, amount);
+				preparedStmt1.setString(1, t.getId());
+				preparedStmt1.setString(2, t.getName());
+				preparedStmt1.setString(3, t.getType());
+				preparedStmt1.setDouble(4, t.getAmount());
 				preparedStmt1.execute();
 
 				msg = msg+"Account Successfully Created. ";
 				ResultSet res = stmt.executeQuery(
-						"select acctnum from bankaccount where userid = '" + id + "' and username = '" + user + "' order by date desc;");
+						"select acctnum from bankaccount where userid = '" + t.getId() + "' and username = '" + t.getName() + "' order by date desc;");
 
 				if (res.next()) {
 				
@@ -124,6 +125,7 @@ public class NewUser {
 				msg = msg+"Something went wrong!";
 			}
 				t.setMessage(msg);
+				t.setId("admin");
 				frame.setVisible(false);
 				new Admin(t);
 			}

@@ -6,8 +6,7 @@ import java.sql.*;
 import javax.swing.*;
 
 public class AddAcct {
-	String user = "", type = "",id="";
-	Double amount = 0.0;
+	
 	String msg = "";
 	public AddAcct(TransactionObject t){
 		JFrame frame;
@@ -21,8 +20,6 @@ public class AddAcct {
 		JTextField amt = new JTextField(10);
 		JButton create = new JButton("Create");
 		JButton back = new JButton("Back");
-		
-		
 		
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -73,29 +70,29 @@ public class AddAcct {
 					Class.forName("com.mysql.jdbc.Driver");
 					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "oracle");
 					Statement stmt = con.createStatement();
+										
+					t.setName(name.getText());
+					t.setType(atype.getText());
+					t.setAmount(Float.parseFloat(amt.getText()));
 					
-					user = name.getText();
-					type = atype.getText();
-					amount = Double.parseDouble(amt.getText());
-					
-					ResultSet rs = stmt.executeQuery("select userid from bankaccount where  username = '" + user + "';");
+					ResultSet rs = stmt.executeQuery("select userid from bankaccount where  username = '" + t.getName() + "';");
 					if(rs.next()){
-						id = rs.getString(1);
+						t.setId(rs.getString(1));
 					}
 					
 					
 					
 				String query1 = " insert into bankaccount (userid, username,type,amount) values (?,?,?,?);";
 				PreparedStatement preparedStmt1 = con.prepareStatement(query1);
-				preparedStmt1.setString(1, id);
-				preparedStmt1.setString(2, user);
-				preparedStmt1.setString(3, type);
-				preparedStmt1.setDouble(4, amount);
+				preparedStmt1.setString(1, t.getId());
+				preparedStmt1.setString(2, t.getName());
+				preparedStmt1.setString(3, t.getType());
+				preparedStmt1.setDouble(4, t.getAmount());
 				preparedStmt1.execute();
 
 				msg = msg+"Account Successfully Added. ";
 				ResultSet res = stmt.executeQuery(
-						"select acctnum from bankaccount where userid = '" + id + "' and username = '" + user + "' order by date desc;");
+						"select acctnum from bankaccount where userid = '" + t.getId() + "' and username = '" + t.getName()+ "' order by date desc;");
 
 				if (res.next()) {
 				
@@ -106,6 +103,7 @@ public class AddAcct {
 				msg = msg+"Something went wrong!"+ex;
 			}
 				t.setMessage(msg);
+				t.setId("admin");
 				frame.setVisible(false);
 				new Admin(t);
 			}
