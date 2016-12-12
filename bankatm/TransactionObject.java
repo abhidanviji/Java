@@ -10,13 +10,7 @@ public class TransactionObject implements Serializable {
 	String name;
 	String message;
 	Date date;
-	float amount;
-	// added for database
-	public static String className = "com.mysql.jdbc.Driver";
-	public static String host = "jdbc:mysql://localhost:3306/";
-	public static String db = "sys";
-	public static String user = "root";
-	public static String pwd = "oracle";
+	float amount;	
 
 	public TransactionObject() {
 	}

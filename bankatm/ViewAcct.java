@@ -53,8 +53,8 @@ public class ViewAcct {
 		});
 
 		try {
-			Class.forName(t.className);
-			Connection con = DriverManager.getConnection(t.host+t.db, t.user, t.pwd);
+			Class.forName(new DataBase().className);
+			Connection con = DriverManager.getConnection(new DataBase().host + new DataBase().db, new DataBase().user, new DataBase().pwd);
 			Statement stmt = con.createStatement();
 
 			if (t.getId().equals("admin")) {
